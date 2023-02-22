@@ -1,0 +1,47 @@
+name: Pixiv Notify
+
+on:
+  schedule:
+    - cron: '0 5 * * *'
+
+  workflow_dispatch:
+
+jobs:
+  surf:
+    runs-on: ubuntu-latest
+
+    env:
+      Strategy: BOOKMARKS_PER_VIEW
+      IllustCount: 3
+      RetryOnFailureTrials: 10
+      RetryOnFailureCooldown: 30
+      # args.token = secrets.PIXIV_TOKEN (as repo action secrets)
+      # args.keyword = secrets.PIXIV_KEYWORD (as repo action secrets)
+      # args.linebearer = secrets.LINE_BEARER (as repo action secrets)
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+
+      - name: Setup Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.8'
+
+      - name: Install Dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      - name: Invoke Script
+        run: |
+          python surf.py \
+            --token ${{ secrets.PIXIV_TOKEN }} \
+            --keyword "${{ secrets.PIXIV_KEYWORD }}" \
+            --strategy ${{ env.Strategy }} \
+            --count ${{ env.IllustCount }} \
+            --roft ${{ env.RetryOnFailureTrials }} \
+            --rofc ${{ env.RetryOnFailureCooldown }} \
+            --linebearer ${{ secrets.LINE_BEARER }}
