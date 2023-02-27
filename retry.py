@@ -13,7 +13,7 @@ class RetryOnFailure(object):
     trials = 10
 
     # interval in seconds
-    cooltime = 30
+    cooldown = 30
 
     def __call__(self, func):
         def wrappee(*args, **kwargs):
@@ -23,7 +23,7 @@ class RetryOnFailure(object):
                     return func(*args, **kwargs)
                 except Exception as e:
                     exception = e
-                    sleep(RetryOnFailure.cooltime)
+                    sleep(RetryOnFailure.cooldown)
             inspect(exception)
             raise exception
         return wrappee

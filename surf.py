@@ -35,13 +35,13 @@ def main():
     parser.add_argument("--strategy", type = SortingStrategy, default = Candidate.strategy, choices = list(SortingStrategy))
     parser.add_argument("--count", type = int, default = 3, help = "max illusts to save")
     parser.add_argument("--roft", type = int, default = RetryOnFailure.trials, help = "max iterations to try on failure")
-    parser.add_argument("--rofc", type = int, default = RetryOnFailure.cooltime, help = "interval in seconds for trials on failure")
+    parser.add_argument("--rofc", type = int, default = RetryOnFailure.cooldown, help = "interval in seconds for trials on failure")
     parser.add_argument("--linebearer", type = str, help = "line notify bearer")
     
     # parse and set static config
     args = parser.parse_args()
     RetryOnFailure.trials = args.roft
-    RetryOnFailure.cooltime = args.rofc
+    RetryOnFailure.cooldown = args.rofc
     Candidate.strategy = args.strategy
 
     # init and get illusts
