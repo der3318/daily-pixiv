@@ -47,12 +47,13 @@ def main():
     # init and get illusts
     api, results = init(args.token, args.keyword)
 
-    # collect candidates
+    # collect daily candidates
     candidates = list()
     for idx, illust in enumerate(results.illusts):
         image = illust.meta_single_page.get("original_image_url", illust.image_urls.large)
         delta = datetime.now(timezone.utc) - datetime.strptime(illust.create_date, "%Y-%m-%dT%H:%M:%S%z")
-        candidates.append(Candidate(illust.id, illust.title, image, illust.total_view, illust.total_bookmarks, delta))
+        if delta.total_seconds() < 86400:
+            candidates.append(Candidate(illust.id, illust.title, image, illust.total_view, illust.total_bookmarks, delta))
 
     # save top ranked images and notify
     for idx, candidate in enumerate(sorted(candidates)[:args.count]):

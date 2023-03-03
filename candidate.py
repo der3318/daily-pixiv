@@ -31,10 +31,10 @@ class Candidate(object):
         self.timedelta = timedelta
 
     def __lt_vps(self, other):
-        return (self.views / self.timedelta.seconds) > (other.views / other.timedelta.seconds)
+        return (self.views / self.timedelta.total_seconds()) > (other.views / other.timedelta.total_seconds())
 
     def __lt_bps(self, other):
-        return (self.bookmarks / self.timedelta.seconds) > (other.bookmarks / other.timedelta.seconds)
+        return (self.bookmarks / self.timedelta.total_seconds()) > (other.bookmarks / other.timedelta.total_seconds())
 
     def __lt_bpv(self, other):
         return (self.bookmarks / self.views) > (other.bookmarks / other.views)
@@ -52,7 +52,7 @@ class Candidate(object):
         return dispatch[Candidate.strategy](other)
 
     def valid(self):
-        return (self.timedelta.seconds > 0) and (self.views > 0)
+        return (self.timedelta.total_seconds() > 0) and (self.views > 0)
 
     def imgpath(self):
         return ("./Images/%s.jpg" % self.id)
