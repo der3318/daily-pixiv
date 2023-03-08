@@ -7,14 +7,14 @@
 ![pillow](https://img.shields.io/badge/pillow%20%28pip3%29-9.4.0-yellow.svg)
 ![license](https://img.shields.io/badge/license-MIT%20%28inherited%29-blueviolet.svg)
 
-The repo leverages [pixivpy (Pixiv API)](https://github.com/upbit/pixivpy) and free [Github Actions](../../actions) to download top ranked Pixiv illustrations into a [Line chatroom (via Line Notify)](https://notify-bot.line.me/my/) on a daily basis.
+The repo leverages [pixivpy (Pixiv API)](https://github.com/upbit/pixivpy) to download top ranked Pixiv illustrations into a [Line chatroom (via Line Notify)](https://notify-bot.line.me/my/). A [Github Actions](../../actions) job is also setup to test the flow and verify the integration (incl. API, endpoints, large payload requests) on a daily basis.
 
 ![Sample.png](https://github.com/der3318/daily-pixiv/blob/main/Demo/Sample.png)
 
 
-### Activate Github Workflow Pipeline
+### About Github Workflow Pipeline
 
-[schedule.yml](https://github.com/der3318/daily-pixiv/blob/main/.github/workflows/schedule.yml) has several predefined configurations. For Pixiv token, keyword (tag) and Line Notify bearer, they should be provided as [Github Action secrets](../../settings/secrets/actions):
+[schedule.yml](https://github.com/der3318/daily-pixiv/blob/main/.github/workflows/schedule.yml) has several predefined configurations. For Pixiv token, keyword (tag) and Line Notify bearer, they are provided as [Github Action secrets](../../settings/secrets/actions):
 
 ![ActionSecrets.png](https://github.com/der3318/daily-pixiv/blob/main/Demo/ActionSecrets.png)
 
@@ -24,7 +24,7 @@ The repo leverages [pixivpy (Pixiv API)](https://github.com/upbit/pixivpy) and f
 | PIXIV_KEYWORD | the tag keyword to search (likely to be a Japanese term) |
 | PIXIV_TOKEN | a Pixiv refresh session token (usually a 43-charactered str including alphabets and numbers) |
 
-By default, the workflow is scheduled at 5AM (UTC+0) every day. It surfs the artworks and pushs a notification on succeeded.
+By default, the workflow is scheduled at 5AM (UTC+0) every day. It surfs the artworks and pushs a notification on success.
 
 
 ### How to Get Pivix Refresh Token
@@ -47,7 +47,7 @@ It seems that `refresh_token` can be used for a very long period (months and eve
 
 ### Local Run
 
-To debug or add new features, the tool can be run locally. It saves downloaded images to `Images/` directly, using original resolution (unlike Line Notify which has a size limitation).
+To customize or add new features, run the scripts locally. It saves downloaded images to `Images/` directly, using original resolution (unlike Line Notify which has a size limitation).
 
 ![LocalRun.png](https://github.com/der3318/daily-pixiv/blob/main/Demo/LocalRun.png)
 
@@ -63,3 +63,13 @@ pixivpy3.utils.PixivError: requests POST https://oauth.secure.pixiv.net/auth/tok
 ```
 
 According to https://github.com/upbit/pixivpy/issues/166, retry is the most trivial solution. That's why the script has a [RetryOnFailure](https://github.com/der3318/daily-pixiv/blob/main/retry.py) module.
+
+
+### Github Terms and Agreement
+
+See [Acceptable Use Polices Regarding Actions](https://docs.github.com/en/site-policy/github-terms/github-terms-for-additional-products-and-features#actions):
+
+* This is NOT for commercial purposes.
+* Runs are low burden and will NOT deliver content publicly.
+* Activities are considered sort of software project testing.
+
