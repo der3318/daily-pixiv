@@ -10,7 +10,7 @@ from rich import inspect            # pip install rich
 
 # project libs
 from candidate import Candidate, SortingStrategy
-from line import LineNotifyClient
+from line import LineGroupMessageClient, LineNotifyClient
 from retry import RetryOnFailure
 
 
@@ -36,7 +36,9 @@ def main():
     parser.add_argument("--count", type = int, default = 3, help = "max illusts to save")
     parser.add_argument("--roft", type = int, default = RetryOnFailure.trials, help = "max iterations to try on failure")
     parser.add_argument("--rofc", type = int, default = RetryOnFailure.cooldown, help = "interval in seconds for trials on failure")
-    parser.add_argument("--linebearer", type = str, help = "line notify bearer")
+    parser.add_argument("--linebearer", type = str, default = None, help = "line notify bearer")
+    parser.add_argument("--linetoken", type = str, default = None, help = "line channel access token")
+    parser.add_argument("--linegroup", type = str, default = None, help = "line chat group identifier")
     
     # parse and set static config
     args = parser.parse_args()
@@ -62,6 +64,9 @@ def main():
         if args.linebearer:
             message = ("%s\n(%d views, %d bookmarks)" % (candidate.title, candidate.views, candidate.bookmarks))
             LineNotifyClient(args.linebearer).send(message, candidate.imgpath())
+        if args.linetoken and args.linegroup:
+            message = ("https://www.pixiv.net/artworks/%s\n(%d views, %d bookmarks)" % (candidate.id, candidate.views, candidate.bookmarks))
+            LineGroupMessageClient(args.linetoken, args.linegroup).send(message)
 
 
 if __name__ == "__main__":

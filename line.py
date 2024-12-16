@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 
 # standard libs
+from json import dumps
 from os import path, stat
 from requests import post
 
@@ -9,6 +10,23 @@ from PIL import Image   # pip install pillow
 
 # project libs
 from retry import RetryOnFailure
+
+
+class LineGroupMessageClient(object):
+
+    # line notify endpoint
+    endpoint = "https://api.line.me/v2/bot/message/push"
+
+    def __init__(self, token, group):
+        self.token = token
+        self.group = group
+
+    @RetryOnFailure()
+    def send(self, message):
+        headers = {"Authorization": ("Bearer %s" % self.token), "Content-Type": "application/json"}
+        data = {"to": self.group, "messages": [{"type": "text", "text": message}], "notificationDisabled": False}
+        res = post(LineGroupMessageClient.endpoint, headers = headers, data = dumps(data).encode("utf-8"))
+        res.raise_for_status()
 
 
 class LineNotifyClient(object):

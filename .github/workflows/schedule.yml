@@ -18,6 +18,8 @@ jobs:
       # args.token = secrets.PIXIV_TOKEN (as repo action secrets)
       # args.keyword = secrets.PIXIV_KEYWORD (as repo action secrets)
       # args.linebearer = secrets.LINE_BEARER (as repo action secrets)
+      # args.linetoken = secrets.LINE_TOKEN (as repo action secrets)
+      # args.linegroup = secrets.LINE_GROUP (as repo action secrets)
 
     steps:
       - name: Checkout
@@ -44,4 +46,6 @@ jobs:
             --count ${{ env.IllustCount }} \
             --roft ${{ env.RetryOnFailureTrials }} \
             --rofc ${{ env.RetryOnFailureCooldown }} \
-            --linebearer ${{ secrets.LINE_BEARER }}
+            --linebearer ${{ secrets.LINE_BEARER }} \
+            --linetoken ${{ secrets.LINE_TOKEN }} \
+            --linegroup ${{ secrets.LINE_GROUP }}
