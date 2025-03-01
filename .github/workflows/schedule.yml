@@ -17,7 +17,7 @@ jobs:
       RetryOnFailureCooldown: 30
       # args.token = secrets.PIXIV_TOKEN (as repo action secrets)
       # args.keyword = secrets.PIXIV_KEYWORD (as repo action secrets)
-      # args.linebearer = secrets.LINE_BEARER (as repo action secrets)
+      # args.linebearer = secrets.LINE_BEARER (as repo action secrets but deprecated)
       # args.linetoken = secrets.LINE_TOKEN (as repo action secrets)
       # args.linegroup = secrets.LINE_GROUP (as repo action secrets)
 
@@ -46,6 +46,5 @@ jobs:
             --count ${{ env.IllustCount }} \
             --roft ${{ env.RetryOnFailureTrials }} \
             --rofc ${{ env.RetryOnFailureCooldown }} \
-            --linebearer ${{ secrets.LINE_BEARER }} \
             --linetoken ${{ secrets.LINE_TOKEN }} \
             --linegroup ${{ secrets.LINE_GROUP }}
