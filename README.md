@@ -2,25 +2,30 @@
 ## 📰 Daily Pixiv Notification
 
 ![pixivpy3](https://img.shields.io/badge/pixivpy3%20%28pip3%29-3.7.2-blue.svg)
-![line](https://img.shields.io/badge/line-notify--api.line.me-brightgreen.svg)
+![line](https://img.shields.io/badge/line-api.line.me%2Fv2%2Fbot%2Fmessage%2Fpush-brightgreen.svg)
 ![rich](https://img.shields.io/badge/rich%20%28pip3%29-13.3.1-pink.svg)
 ![pillow](https://img.shields.io/badge/pillow%20%28pip3%29-9.4.0-yellow.svg)
 ![license](https://img.shields.io/badge/license-MIT%20%28inherited%29-blueviolet.svg)
 
-The repo leverages [pixivpy (Pixiv API)](https://github.com/upbit/pixivpy) to download top ranked Pixiv illustrations into a [Line chatroom (via Line Notify)](https://notify-bot.line.me/my/). A [Github Actions](../../actions) job is also setup to test the flow and verify the integration (incl. API, endpoints, large payload requests) on a daily basis.
+The repo leverages [pixivpy (Pixiv API)](https://github.com/upbit/pixivpy) to download top ranked Pixiv illustrations into a [LINE chatroom (via LINE Notify)](https://notify-bot.line.me/my/). A [Github Actions](../../actions) job is also setup to test the flow and verify the integration (incl. API, endpoints, large payload requests) on a daily basis.
+
+> [!NOTE]
+> [LINE Notify service will be inoperable](https://notify-bot.line.me/closing-announce) in April 2025. The official recommendation is to [use Messaging API as alternative methods of sending notifications](https://techblog.lycorp.co.jp/zh-hant/line-notify-migration-tips).
 
 ![Sample.png](https://github.com/der3318/daily-pixiv/blob/main/Demo/Sample.png)
 
 
 ### About Github Workflow Pipeline
 
-[schedule.yml](https://github.com/der3318/daily-pixiv/blob/main/.github/workflows/schedule.yml) has several predefined configurations. For Pixiv token, keyword (tag) and Line Notify bearer, they are provided as [Github Action secrets](../../settings/secrets/actions):
+[schedule.yml](https://github.com/der3318/daily-pixiv/blob/main/.github/workflows/schedule.yml) has several predefined configurations. For Pixiv token, keyword (tag) and LINE Notify bearer, they are provided as [Github Action secrets](../../settings/secrets/actions):
 
 ![ActionSecrets.png](https://github.com/der3318/daily-pixiv/blob/main/Demo/ActionSecrets.png)
 
 | Secret Name | Description |
 | :- | :- |
-| LINE_BEARER | the bearer used by Line Notify to interact with a chatroom (a str including alphabets and numbers) |
+| <del>LINE_BEARER</del> | <del>the bearer used by LINE Notify to interact with a chatroom (a str including alphabets and numbers)</del> |
+| LINE_TOKEN | the channel access token of your LINE business ID for authorization |
+| LINE_GROUP | group ID of the chatroom (can be found from the webhook event object, for example, using https://webhook.site/) |
 | PIXIV_KEYWORD | the tag keyword to search (likely to be a Japanese term) |
 | PIXIV_TOKEN | a Pixiv refresh session token (usually a 43-charactered str including alphabets and numbers) |
 
@@ -47,7 +52,7 @@ It seems that `refresh_token` can be used for a very long period (months and eve
 
 ### Local Run
 
-To customize or add new features, run the scripts locally. It saves downloaded images to `Images/` directly, using original resolution (unlike Line Notify which has a size limitation).
+To customize or add new features, run the scripts locally. It saves downloaded images to `Images/` directly, using original resolution (unlike LINE Notify which has a size limitation).
 
 ![LocalRun.png](https://github.com/der3318/daily-pixiv/blob/main/Demo/LocalRun.png)
 
