@@ -4,7 +4,7 @@ cloudscraper==1.2.68
 idna==3.4
 markdown-it-py==2.1.0
 mdurl==0.1.2
-Pillow==9.4.0
+Pillow==11.0.0
 PixivPy3==3.7.2
 Pygments==2.14.0
 pyparsing==3.0.9
